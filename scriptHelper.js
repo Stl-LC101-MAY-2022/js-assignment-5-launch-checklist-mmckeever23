@@ -1,26 +1,28 @@
 require('isomorphic-fetch');
 
-function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
-    // Here is the HTML formatting for our mission target div.
-    /*
-                 <h2>Mission Destination</h2>
+function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {    
+            const missionTarget = document.getElementById("missionTarget");
+            missionTarget.innerHTML = `
+           <div>    
+                <h2>Mission Destination</h2>
                 <ol>
-//                  <li>Name: ${json.name}</li>
-//                  <li>Diameter: ${json.diameter}</li>
-//                  <li>Star: ${json.star}</li>
-//                  <li>Distance from Earth: ${json.distance}</li>
-//                  <li>Number of Moons: ${json.moons}</li>
-//              </ol>
-//              <img src="${json.image}">
-    */
-}
+                    <li>Name: ${name}</li>
+                    <li>Diameter: ${diameter}</li>
+                    <li>Star: ${star}</li>
+                    <li>Distance from Earth: ${distance}</li>
+                    <li>Number of Moons: ${moons}</li>
+                </ol>
+                <img src = "${imageUrl}">
+            </div>
+        `;
+};
 
 function validateInput(testInput) {
     if (testInput === "") {
         return "Empty";
     } else if (testInput === Number) {
         return "Is a Number";
-    } else if (isNaN(testInput) === true) {
+    } else if (isNaN(testInput)) {
         return "Not a Number";
     }
 };
@@ -52,16 +54,14 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 async function myFetch() {
     let planetsReturned;
     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
-        response.json().then(function(json){
-        console.long(json[2]);
+        return response.json();
         });
-        return response        
-    });
-    console.log("Planets Returned are: " + planetsReturned)
     return planetsReturned;
 };
 
 function pickPlanet(planets) {
+    let pickedPlanet = (planets[[Math.floor(Math.random() * planets.length)]]);
+    return pickedPlanet;
 }
 
 module.exports.addDestinationInfo = addDestinationInfo;
